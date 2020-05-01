@@ -23,8 +23,9 @@ struct Cell {
 };
 
 class Map {
-private:
+protected:
     const int MAP_SIZE = 21;
+    const char EMPTY_CHAR = '.';
     std::vector<std::vector<char> > map;
     
     bool is_in_bound(const Cell &coord);
@@ -32,9 +33,10 @@ public:
     Map();
     
     int get_size();
-    void set_cell(const Cell &coord, char c);
+    //void set_cell(const Cell &coord, char c);
+    //void set_cell_empty(const Cell &coord);
     bool is_cell_empty(const Cell &coord);
-
+    
     void print();    
 };
 
@@ -44,20 +46,27 @@ bool Map::is_in_bound(const Cell &coord) {
 }
 
 Map::Map() {
-    map.resize(MAP_SIZE, std::vector<char>(MAP_SIZE, '.'));
+    map.resize(MAP_SIZE, std::vector<char>(MAP_SIZE, EMPTY_CHAR));
 }
 
 int Map::get_size() {
     return MAP_SIZE;
 }
 
+
 bool Map::is_cell_empty(const Cell &coord) {
-    return (is_in_bound(coord) && map[coord.y][coord.x] == '.');
+    return (is_in_bound(coord) && map[coord.y][coord.x] == EMPTY_CHAR);
 }
 
+/*
 void Map::set_cell(const Cell &coord, char c) {
     map[coord.y][coord.x] = c;
 }
+
+void Map::set_cell_empty(const Cell &coord) {
+    set_cell(coord, EMPTY_CHAR);
+}
+*/
 
 void Map::print() {
     std::cout << " # "; 

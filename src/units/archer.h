@@ -1,14 +1,16 @@
-#include "Iunit.h"
+#pragma once
+#include "src/interface/entity.h"
 
-class Archer : public Iunit {
+class Archer : public Entity {
 private:
 public:
-    Archer(const int player_) {
-        player_id = player_;
+    
+    Archer(int _player) {
+        player_id = _player;
         move = 1;
-        visual = 'a';
         power = 5;
         health = 5;
         attack_range = 2;
+        visual = 'a';
     }
 };

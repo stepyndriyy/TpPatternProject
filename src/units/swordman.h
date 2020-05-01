@@ -1,13 +1,15 @@
-#include "Iunit.h"
+#pragma once
+#include "src/interface/entity.h"
 
-class Swordsman : public Iunit {
+class Swordsman : public Entity {
 public:
-    Swordsman(const int player_) {
-        player_id = player_;
+    
+    Swordsman(int _player) {
+        player_id = _player;
         move = 2;
-        visual = 's';
         power = 5;
         health = 15;
         attack_range = 1;
+        visual = 's';
     }
 };

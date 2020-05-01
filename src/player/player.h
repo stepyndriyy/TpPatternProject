@@ -3,36 +3,27 @@
 #include<string>
 #include "src/map/map.h"
 #include "src/buildings/barracks.h"
-#include "src/unit/Iunit.h" 
+#include "src/interface/entity.h" 
 
 class Player {
 private:
-    static int current_player_id = 1;
+    static int current_player_id;
     int player_id;
     std::string player_name;
-    std::map<Cell, Iunit*>
-    std::map<Cell, Barracks*> buildings;
 public:
 
-    Player(const std::string &name) : player_name(name), player_id(current_player_id++) {}
-    
-    bool is_my_unit(const Cell &pos) {
-        return units.find(pos) != units.end();
+    Player(const std::string &name) : player_name(name) {
+        player_id = current_player_id++;
     }
     
-    bool is_my_barracks(const Cell &pos) {
-        return buildings.find(pos) != buildings.end();
+    int get_player_id() {
+        return player_id;
     }
-    
-    Iunit* get_unit(const Cell &pos) {
-        if (!is_my_unit(pos))
-            return nullptr;
-        return units[pos];
-    } 
 
-    Barracks* get_barracks(const Cell &pos) {
-        if (!is_my_barracks(pos))
-            return nullptr;
-        return buildings[pos];
+    std::string get_player_name() {
+        return player_name;
     }
+
 };
+
+int Player::current_player_id = 1;

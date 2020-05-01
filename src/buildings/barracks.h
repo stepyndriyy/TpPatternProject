@@ -1,15 +1,24 @@
-#include "src/units/swordman.h"
+#pragma once
+#include "src/interface/entity.h"
 #include "src/units/archer.h"
-#include<vector>
+#include "src/units/swordman.h"
 
-class Barracks {
+class Barracks : Entity {
 private:
     static const char NOTHING = '-';
     int remainig_turns = 0;
     char unit_type;
-    int player_id;
 public:
-    Barracks(int player_) : remainig_turns(0), unit_type(NOTHING), player_id(player_) {}
+    
+    static const char visual = 'B';
+    
+    Barracks(int _player) : remainig_turns(0), unit_type(NOTHING) {
+        player_id = _player;
+        move = 0;
+        power = 0;
+        health = 15;
+        attack_range = 0;
+    }
 
     char new_turn() {
         remainig_turns--;
@@ -27,14 +36,20 @@ public:
             return false;
         }
         remainig_turns = 3;
-        unit_type = Archer::visual; 
+        /*
+        Archer(0) cmp; 
+        unit_type = cmp.get_visual();
+    */
     }
     
     bool create_swordsman() {
         if (remainig_turns != 0) {
             return false;
         }
+      
         remainig_turns = 2;
+      /*
         unit_type = Swordsman::visual;
+    */
     }
 };
