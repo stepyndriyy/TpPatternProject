@@ -8,7 +8,7 @@ public:
         player_id = _player;
         BASE_MOVE = move = 2;
         power = 5;
-        health = 15;
+        health = 10;
         attack_range = 1;
         visual = 's';
     }

@@ -116,7 +116,6 @@ void Game::game_loop() {
             players.erase(players.begin() + current_player);
             current_player %= players.size();
             std::cout << players[current_player].get_player_name() << " turn\n";
-            continue;
         }
         if (players.size() <= 1) {
             if (players.size() == 0) {
@@ -130,8 +129,8 @@ void Game::game_loop() {
         
         map->print(); 
         std::getline(std::cin, inp);
+        action_type = strfunc::split_first_word(inp);
         while (action_type != "endturn") {
-            action_type = strfunc::split_first_word(inp);
             
             if (action_type == "move") {
                 Cell from, to;
@@ -159,7 +158,8 @@ void Game::game_loop() {
                 std::cout << "wrong command\n";
             }
             map->print();  
-            std::getline(std::cin, inp);
+            std::getline(std::cin, inp); 
+            action_type = strfunc::split_first_word(inp);
         }
 
         current_player = (current_player + 1) % players.size(); 
