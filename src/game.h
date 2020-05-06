@@ -1,4 +1,6 @@
 #pragma once
+#include <sstream>
+#include <stdexcept>
 #include<vector>
 #include<set>
 #include<iostream>
@@ -8,6 +10,38 @@
 #include "src/commands/commands"
 #include "src/buildings/barracks"
 
+namespace strfunc {
+    Cell string_to_cell(std::string &str) {
+        std::size_t pos = 0, pos2 = 0;
+        int y = -1, x = -1;
+        try {
+            y = std::stoi(str, &pos);
+            x = std::stoi(str.substr(pos), &pos2);
+        } catch (std::invalid_argument& _a) {
+            return Cell(-1, -1);
+        }
+        str = str.substr(pos2 + pos);
+        return Cell(x, y);
+    }
+
+    std::string split_first_word(std::string &str) {
+        while (str.size() > 0 && str.back() == ' ')
+            str.pop_back();
+        while (str.size() > 0 && str[0] == ' ')
+            str.erase(0, 1); 
+        
+        int n = str.find(" ");
+        if (n == std::string::npos) {
+            n = str.size();
+        }
+        std::string answer = str.substr(0, n);
+        str = str.substr(n);
+        
+        return answer;
+    }
+}
+
+
 class Game {
 private:
     GameMap* map = GameMap::get_instance();
@@ -16,7 +50,8 @@ private:
     
     bool add_unit(int player_num, const Cell &pos, Entity* unit); 
     
-    void update_player(int player_num); 
+    int  update_player(int player_num); 
+    
 public:
     Game();
 
@@ -25,7 +60,8 @@ public:
 
 
 
-void Game::update_player(int player_num) {
+int Game::update_player(int player_num) {
+    int count = 0;
     for (int y = 0; y < map->get_size(); ++y) {
         for (int x = 0; x < map->get_size(); ++x) {
             Entity* entity = map->get_entity(Cell(x, y));
@@ -34,7 +70,7 @@ void Game::update_player(int player_num) {
             if (entity->get_player_id() != players[player_num].get_player_id()) {
                 continue;
             }
-            
+            count++;
             if (Barracks *b = dynamic_cast<Barracks*>(entity)) {
                 BarracksAdapted adapted(b, Cell(x, y));
                 adapted.update();
@@ -42,7 +78,8 @@ void Game::update_player(int player_num) {
             }
             entity->update();
         }
-    }  
+    }
+    return count;
 }    
 
 bool Game::add_unit(int player_num, const Cell &pos, Entity* unit) {
@@ -66,38 +103,63 @@ Game::Game() {
 }
 
 
+
+
+
 void Game::game_loop() {
     std::string action_type;    
     int current_player = 0;
-    int x, y;
+
+    std::string inp; 
     while (true) {
-        update_player(current_player); 
+        if (update_player(current_player) == 0) {
+            players.erase(players.begin() + current_player);
+            current_player %= players.size();
+            std::cout << players[current_player].get_player_name() << " turn\n";
+            continue;
+        }
+        if (players.size() <= 1) {
+            if (players.size() == 0) {
+                std::cout << "DRAW!!\n";
+            }
+            if (players.size() == 1) {
+                std::cout << players[0].get_player_name() << " WIN!!\n"; 
+            }
+            break;
+        }
+        
         map->print(); 
-        std::cin >> action_type;
-        while (action_type != "end") {
+        std::getline(std::cin, inp);
+        while (action_type != "endturn") {
+            action_type = strfunc::split_first_word(inp);
+            
             if (action_type == "move") {
-                std::cin >> y >> x;
-                CommandMoveUnit cmd(players[current_player], Cell(x, y));
+                Cell from, to;
+                from = strfunc::string_to_cell(inp);
+                to = strfunc::string_to_cell(inp); 
+                CommandMoveUnit cmd(players[current_player], from, to);
                 cmd.execute(); 
             }
 
             else if (action_type == "attack") {
-                std::cin >> y >> x;
-                CommandAttack cmd(players[current_player], Cell(x, y));
+                Cell from, to;
+                from = strfunc::string_to_cell(inp);
+                to = strfunc::string_to_cell(inp);
+                CommandAttack cmd(players[current_player], from, to);
                 cmd.execute();
             }
 
             else if (action_type == "barracks") {
-                std::cin >> y >> x;
-                CommandBarracks cmd(players[current_player], Cell(x, y));
+                Cell from = strfunc::string_to_cell(inp);
+                CommandBarracks cmd(players[current_player], from, strfunc::split_first_word(inp));
                 cmd.execute(); 
             } 
 
             else {
                 std::cout << "wrong command\n";
             }
-            
-            std::cin >> action_type;
+            map->print();  
+            std::getline(std::cin, inp);
         }
 
         current_player = (current_player + 1) % players.size(); 

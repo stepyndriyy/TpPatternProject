@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<queue>
 #include "map.h"
 #include<vector>
 #include "src/interface/entity.h"
@@ -13,6 +14,7 @@ private:
    
     GameMap();
     
+
 public:    
 
     bool is_unit(const Cell &coord);
@@ -30,7 +32,8 @@ public:
     
     void attack(const Cell &from, const Cell &to); 
 
-    
+    int real_dist(const Cell &from, const Cell &to);    
+
     static GameMap* get_instance(); 
     
 };

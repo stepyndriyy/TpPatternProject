@@ -36,14 +36,14 @@ protected:
 public:
     
     int get_size();
-    int dist(const Cell &from, const Cell &to);
+    int raw_dist(const Cell &from, const Cell &to);
     bool is_cell_empty(const Cell &coord);
     
     void print();    
     
 };
 
-int Map::dist(const Cell &from, const Cell &to) {
+int Map::raw_dist(const Cell &from, const Cell &to) {
     return std::abs(from.x - to.x) + std::abs(from.y - to.y);
 }
 

@@ -2,19 +2,19 @@
 
 class CommandAttack : public Command {
 private:
-    Cell unit_pos;
+    Cell from, to;
 public:
-    CommandAttack(Player &pl, const Cell &c) : Command(pl), unit_pos(c) {}
+    CommandAttack(Player &pl, const Cell &fr, const Cell &t) : Command(pl), from(fr), to(t) {}
 
     void execute() override;
 };
 
 void CommandAttack::execute() { 
-    if (!map->is_unit(unit_pos)) {
+    if (!map->is_unit(from)) {
         std::cout << "there is no units(\n";
         return;
     }
-    Entity *unit = map->get_unit(unit_pos);
+    Entity *unit = map->get_unit(from);
 
     if (unit->get_player_id() != player->get_player_id()) {
         std::cout << "it's not your unit\n";
@@ -24,10 +24,8 @@ void CommandAttack::execute() {
         std::cout << "not enough moves\n";
         return;
     }
-    Cell enemy_pos;
-    std::cin >> enemy_pos.y >> enemy_pos.x;     
      
-    Entity* enemy = map->get_entity(enemy_pos);
+    Entity* enemy = map->get_entity(to);
     if (enemy == nullptr) {
         std::cout << "you can't attack noting(\n";
         return;
@@ -36,14 +34,13 @@ void CommandAttack::execute() {
         std::cout << "it's your unit\n";
         return;
     } 
-    if (map->dist(unit_pos, enemy_pos) > unit->get_attack_range()) {
+    
+    if (map->raw_dist(from, to) > unit->get_attack_range()) {
         std::cout << "not in range\n";
         return;
     }
-    map->attack(unit_pos, enemy_pos); 
+    map->attack(from, to); 
     unit->move = 0;
-
-    map->print();
 }
 
 
