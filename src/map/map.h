@@ -1,6 +1,7 @@
 #pragma once
 #include<vector>
 #include<iostream>
+#include<cmath>
 
 struct Cell {
     int x, y;
@@ -24,22 +25,27 @@ struct Cell {
 
 class Map {
 protected:
-    const int MAP_SIZE = 21;
+    const int MAP_SIZE = 6;
     const char EMPTY_CHAR = '.';
     std::vector<std::vector<char> > map;
     
     bool is_in_bound(const Cell &coord);
-public:
+    
     Map();
     
+public:
+    
     int get_size();
-    //void set_cell(const Cell &coord, char c);
-    //void set_cell_empty(const Cell &coord);
+    int dist(const Cell &from, const Cell &to);
     bool is_cell_empty(const Cell &coord);
     
     void print();    
+    
 };
 
+int Map::dist(const Cell &from, const Cell &to) {
+    return std::abs(from.x - to.x) + std::abs(from.y - to.y);
+}
 
 bool Map::is_in_bound(const Cell &coord) {
     return (0 <= coord.x && coord.x < MAP_SIZE) && (0 <= coord.y && coord.y < MAP_SIZE);
@@ -57,16 +63,6 @@ int Map::get_size() {
 bool Map::is_cell_empty(const Cell &coord) {
     return (is_in_bound(coord) && map[coord.y][coord.x] == EMPTY_CHAR);
 }
-
-/*
-void Map::set_cell(const Cell &coord, char c) {
-    map[coord.y][coord.x] = c;
-}
-
-void Map::set_cell_empty(const Cell &coord) {
-    set_cell(coord, EMPTY_CHAR);
-}
-*/
 
 void Map::print() {
     std::cout << " # "; 

@@ -9,4 +9,10 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 
-add_executable(TEST main.cpp)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/src/map)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/src/building)
+
+
+add_executable(MAIN main.cpp)
+
+#target_link_libraries(lib)

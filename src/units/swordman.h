@@ -6,7 +6,7 @@ public:
     
     Swordsman(int _player) {
         player_id = _player;
-        move = 2;
+        BASE_MOVE = move = 2;
         power = 5;
         health = 15;
         attack_range = 1;

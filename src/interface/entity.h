@@ -2,6 +2,7 @@
 
 class Entity {
 protected:
+    int BASE_MOVE;
     int power;
     int attack_range; 
     int player_id;
@@ -28,6 +29,18 @@ public:
 
     virtual char get_visual() {
         return visual;
+    }
+    
+    virtual void attack(Entity* &other) {
+        other->health -= power;
+        if (other->health <= 0) {
+            delete other;
+            other = nullptr;
+        }
+    }
+
+    virtual void update() {
+        move = BASE_MOVE;
     }
 };
 
