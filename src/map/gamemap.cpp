@@ -25,7 +25,7 @@ bool GameMap::is_barracks(const Cell &coord) {
 bool GameMap::is_unit(const Cell &coord) {
     if (!is_in_bound(coord))
         return false;
-    return ((!is_cell_empty(coord)) && (!is_barracks(coord)));
+    return (!is_cell_empty(coord)) && (!is_barracks(coord));
 }
 
 Entity* GameMap::get_unit(const Cell &coord) {
@@ -65,6 +65,10 @@ void GameMap::move(const Cell &from, const Cell &to) {
 
 void GameMap::set_cell(const Cell &pos, Entity* entity) {
     entities[pos.y][pos.x] = entity;
+    if (!entity) {
+        map[pos.y][pos.x] = EMPTY_CHAR;
+        return;
+    }
     map[pos.y][pos.x] = entity->get_visual();
 }
 
@@ -73,37 +77,23 @@ void GameMap::set_cell_empty(const Cell &pos) {
 }
 
 
-void GameMap::attack(const Cell &from, const Cell &to) {
-    Entity* unit = get_entity(from);
-    Entity* enemy = get_entity(to);
-    if (unit == nullptr || enemy == nullptr) {
-        return;
-}
-    unit->attack(enemy);
-    entities[to.y][to.x] = enemy;
-    if (enemy == nullptr) {
-         map[to.y][to.x] = EMPTY_CHAR;
-    }
-}
-
 int GameMap::real_dist(const Cell &from, const Cell &to) {
     using std::vector;
-    vector<Cell> near = {Cell(1, 0), Cell(0, 1), Cell(-1, 0), Cell(0, -1)};
     vector<vector<int> > dist(MAP_SIZE, vector<int> (MAP_SIZE, -1));
-    std::queue<Cell> q;
-    q.push(from);
+    std::queue<Cell> queue;
+    queue.push(from);
     dist[from.y][from.x] = 0;
-    while (!q.empty()) {
-        Cell cur = q.front();
-        q.pop();
-        for (Cell diff : near) {
+    while (!queue.empty()) {
+        Cell cur = queue.front();
+        queue.pop();
+        for (Cell diff : {Cell(1, 0), Cell(0, 1), Cell(-1, 0), Cell(0, -1)}) {
             Cell next = cur + diff;
             if (!is_in_bound(next))
                 continue;
-            if ((dist[next.y][next.x] != -1) || (!is_cell_empty(next)))
+            if (dist[next.y][next.x] != -1 || !is_cell_empty(next))
                 continue;
             dist[next.y][next.x] = dist[cur.y][cur.x] + 1;
-            q.push(next); 
+            queue.push(next); 
         }   
     }
     return dist[to.y][to.x]; 

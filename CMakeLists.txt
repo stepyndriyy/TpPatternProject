@@ -10,9 +10,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 
 #add_subdirectory(${CMAKE_SOURCE_DIR}/src/map)
-#add_subdirectory(${CMAKE_SOURCE_DIR}/src/building)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/src/buildings)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/src/commands)
+
 
 
 add_executable(MAIN main.cpp)
 
-#target_link_libraries(lib)
+#target_link_libraries(MAIN buildings gamemap commands)

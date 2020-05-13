@@ -29,12 +29,12 @@ protected:
     const char EMPTY_CHAR = '.';
     std::vector<std::vector<char> > map;
     
-    bool is_in_bound(const Cell &coord);
     
     Map();
     
 public:
     
+    bool is_in_bound(const Cell &coord);
     int get_size();
     int raw_dist(const Cell &from, const Cell &to);
     bool is_cell_empty(const Cell &coord);

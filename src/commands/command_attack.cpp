@@ -26,7 +26,7 @@ void CommandAttack::execute() {
     }
      
     Entity* enemy = map->get_entity(to);
-    if (enemy == nullptr) {
+    if (!enemy) {
         std::cout << "you can't attack noting(\n";
         return;
     }    
@@ -39,7 +39,10 @@ void CommandAttack::execute() {
         std::cout << "not in range\n";
         return;
     }
-    map->attack(from, to); 
+    unit->attack(enemy);
+    if (!enemy) {
+        map->set_cell_empty(to);
+    }
     unit->move = 0;
 }
 

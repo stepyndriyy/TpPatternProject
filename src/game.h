@@ -52,6 +52,7 @@ private:
     
     int  update_player(int player_num); 
     
+    bool check_winner();   
 public:
     Game();
 
@@ -96,14 +97,26 @@ Game::Game() {
     players.push_back(Player("Player2"));
 
     int sz = map->get_size();
-    add_unit(0, Cell(1, 1), new Swordsman(1));
-    add_unit(1, Cell(sz - 2, sz - 2), new Swordsman(2)); 
-    add_unit(0, Cell(0, 0), new Barracks(1));
-    add_unit(1, Cell(sz - 1, sz - 1), new Barracks(2));
+    add_unit(0, Cell(1, 1), new Swordsman(players[0].get_player_id()));
+    add_unit(1, Cell(sz - 2, sz - 2), new Swordsman(players[1].get_player_id())); 
+    add_unit(0, Cell(0, 0), new Barracks(players[0].get_player_id()));
+    add_unit(1, Cell(sz - 1, sz - 1), new Barracks(players[1].get_player_id()));
 }
 
 
 
+bool Game::check_winner() {
+    if (players.size() <= 1) {
+        if (players.size() == 0) {
+            std::cout << "DRAW!!\n";
+        }
+        if (players.size() == 1) {
+            std::cout << players[0].get_player_name() << " WIN!!\n"; 
+        }
+        return true;
+    }
+    return false;
+}
 
 
 void Game::game_loop() {
@@ -117,15 +130,8 @@ void Game::game_loop() {
             current_player %= players.size();
             std::cout << players[current_player].get_player_name() << " turn\n";
         }
-        if (players.size() <= 1) {
-            if (players.size() == 0) {
-                std::cout << "DRAW!!\n";
-            }
-            if (players.size() == 1) {
-                std::cout << players[0].get_player_name() << " WIN!!\n"; 
-            }
-            break;
-        }
+        if (check_winner())
+            break;     
         
         map->print(); 
         std::getline(std::cin, inp);

@@ -1,15 +1,10 @@
 #include "adapted_barracks.h"
 #include<iostream>
+#include<map>
 
 Cell BarracksAdapted::get_vect(char dir) {
-    if (dir == 'l')
-        return Cell(-1, 0);
-    if (dir == 'r')
-        return Cell(1, 0);
-    if (dir == 'u') 
-        return Cell(0, -1);
-    if (dir == 'd')
-        return Cell(0, 1);
+    std::map<char, Cell> get_c = {{'l', Cell(-1, 0)}, {'r', Cell(1, 0)}, {'u', Cell(0, -1)}, {'d', Cell(0, 1)} };
+    return get_c[dir];
 }
 
 Cell BarracksAdapted::where_to_spawn() {

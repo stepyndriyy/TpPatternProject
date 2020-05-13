@@ -22,7 +22,9 @@ void CommandMoveUnit::execute() {
         std::cout << "it's not your unit\n";
         return;
     } 
-    
+    if (!map->is_in_bound(to)) {
+        return;
+    } 
     int dist = map->real_dist(from, to);
     if (dist == -1 || dist > unit->move) {
         std::cout << "you can't move there\n";

@@ -1,10 +1,9 @@
 #pragma once
 #include<vector>
-#include "src/map/gamemap.h"
 #include "src/player/player.h"
 #include "src/units/units"
 
-class Barracks : public virtual Entity {
+class Barracks : public Entity {
 protected:
     const char NOTHING = '-';
     int remaining_turns = 0;
