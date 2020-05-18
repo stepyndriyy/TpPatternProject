@@ -2,8 +2,8 @@
 #include<iostream>
 #include<string>
 #include<map>
-#include "src/map/gamemap"
-#include "src/interface/entity.h"
+#include "../map/gamemap.h"
+#include "../interface/entity.h"
 
 class Command {
 protected:

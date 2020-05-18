@@ -4,11 +4,11 @@
 #include<vector>
 #include<set>
 #include<iostream>
-#include "src/map/gamemap.h"
-#include "src/player/player.h"
-#include "src/units/units"
-#include "src/commands/commands"
-#include "src/buildings/barracks"
+#include "map/gamemap.h"
+#include "player/player.h"
+#include "units/units"
+#include "commands/commands"
+#include "buildings/barracks"
 
 namespace strfunc {
     Cell string_to_cell(std::string &str) {

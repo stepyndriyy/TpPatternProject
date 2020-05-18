@@ -1,4 +1,5 @@
 #include "gamemap.h"
+#include "defaultpath.h"
 
 GameMap* GameMap::global_map = nullptr;
 
@@ -11,6 +12,7 @@ GameMap* GameMap::get_instance() {
 
 GameMap::GameMap() : Map() {
     entities.resize(MAP_SIZE, std::vector<Entity*> (MAP_SIZE, nullptr));
+    path_finding_strategy = new DefaultPathFinding();
 }
 
 bool GameMap::is_barracks(const Cell &coord) {
@@ -78,23 +80,5 @@ void GameMap::set_cell_empty(const Cell &pos) {
 
 
 int GameMap::real_dist(const Cell &from, const Cell &to) {
-    using std::vector;
-    vector<vector<int> > dist(MAP_SIZE, vector<int> (MAP_SIZE, -1));
-    std::queue<Cell> queue;
-    queue.push(from);
-    dist[from.y][from.x] = 0;
-    while (!queue.empty()) {
-        Cell cur = queue.front();
-        queue.pop();
-        for (Cell diff : {Cell(1, 0), Cell(0, 1), Cell(-1, 0), Cell(0, -1)}) {
-            Cell next = cur + diff;
-            if (!is_in_bound(next))
-                continue;
-            if (dist[next.y][next.x] != -1 || !is_cell_empty(next))
-                continue;
-            dist[next.y][next.x] = dist[cur.y][cur.x] + 1;
-            queue.push(next); 
-        }   
-    }
-    return dist[to.y][to.x]; 
+    return path_finding_strategy->find_distance(from, to); 
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "barracks.h"
-#include "src/map/gamemap.h"
+#include "../map/gamemap.h"
 
 class BarracksAdapted {
 private:

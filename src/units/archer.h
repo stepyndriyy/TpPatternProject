@@ -1,5 +1,5 @@
 #pragma once
-#include "src/interface/entity.h"
+#include "../interface/entity.h"
 
 class Archer : public Entity {
 private:

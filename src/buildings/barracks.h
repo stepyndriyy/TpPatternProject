@@ -1,7 +1,7 @@
 #pragma once
 #include<vector>
-#include "src/player/player.h"
-#include "src/units/units"
+#include "../interface/entity.h"
+#include "../units/units"
 
 class Barracks : public Entity {
 protected:

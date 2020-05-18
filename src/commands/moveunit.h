@@ -1,3 +1,4 @@
+#pragma once
 #include "command.h"
 
 class CommandMoveUnit: public Command {

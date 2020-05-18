@@ -1,8 +1,7 @@
 #pragma once
 #include<string>
-#include "src/map/map.h"
-#include "src/buildings/barracks.h"
-#include "src/interface/entity.h" 
+#include "../buildings/barracks.h"
+#include "../interface/entity.h" 
 
 class Player {
 private:

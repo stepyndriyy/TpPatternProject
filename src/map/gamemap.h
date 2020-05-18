@@ -3,12 +3,13 @@
 #include<queue>
 #include "map.h"
 #include<vector>
-#include "src/interface/entity.h"
-#include "src/buildings/barracks.h"
-
+#include "../interface/entity.h"
+#include "../buildings/barracks.h"
+#include "ipath.h"
 
 class GameMap : public Map {
 private:
+    IPathFinding* path_finding_strategy;
     static GameMap* global_map;
     std::vector<std::vector<Entity*> > entities;    
    
