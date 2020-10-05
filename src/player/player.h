@@ -1,9 +1,7 @@
 #pragma once
-#include<map>
 #include<string>
-#include "src/map/map.h"
-#include "src/buildings/barracks.h"
-#include "src/interface/entity.h" 
+#include "../buildings/barracks.h"
+#include "../interface/entity.h" 
 
 class Player {
 private:
@@ -12,15 +10,16 @@ private:
     std::string player_name;
 public:
 
+
     Player(const std::string &name) : player_name(name) {
         player_id = current_player_id++;
     }
     
-    int get_player_id() {
+    int get_player_id() const {
         return player_id;
     }
 
-    std::string get_player_name() {
+    std::string get_player_name() const {
         return player_name;
     }
 

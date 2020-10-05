@@ -1,4 +1,6 @@
+src/state
 /bin
 /build
 run.sh
 src/units/squad.h
+*.swp

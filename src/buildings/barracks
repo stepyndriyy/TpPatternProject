@@ -1,0 +1,3 @@
+#pragma once
+#include "barracks.h"
+#include "adapted_barracks.h"
